@@ -83,7 +83,7 @@ class DiscordWebsite {
     async fetchServerData() {
         try {
             // Set your ACTUAL total member count here (manually)
-            const TOTAL_MEMBERS = 455; // Change this number to your server's actual total member count
+            const TOTAL_MEMBERS = 484; // Change this number to your server's actual total member count
             
             // Fetch real Discord widget data for online count only
             const response = await fetch(`https://discord.com/api/guilds/${DISCORD_SERVER_ID}/widget.json`);
@@ -118,7 +118,7 @@ class DiscordWebsite {
 
     useFallbackData() {
         // Set your ACTUAL total member count here (manually)
-        const TOTAL_MEMBERS = 455; // Change this number to your server's actual total member count
+        const TOTAL_MEMBERS = 484; // Change this number to your server's actual total member count
         const onlineCount = 0;  // Will be overwritten by real data if widget works
 
         if (memberCountElement && onlineCountElement) {
@@ -159,7 +159,7 @@ class DiscordWebsite {
 
     startRealTimeUpdates() {
         // Set your ACTUAL total member count here (manually)
-        const TOTAL_MEMBERS = 455; // Change this number to your server's actual total member count
+        const TOTAL_MEMBERS = 484; // Change this number to your server's actual total member count
         
         // Update every 60 seconds with real Discord data
         setInterval(async () => {
@@ -541,4 +541,5 @@ function createHeartExplosion() {
     `;
     document.head.appendChild(style);
 }
+
 
