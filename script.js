@@ -96,7 +96,7 @@ class DiscordWebsite {
                 
                 // Or you can set a manual minimum if you know your server size
                 // For example, if you have 250+ members, set it here:
-                const manualTotalMembers = 451; // Change this to your actual member count
+                const manualTotalMembers = 453; // Change this to your actual member count
                 
                 // Use the larger of estimated or manual count
                 const totalMembers = Math.max(estimatedTotalMembers, manualTotalMembers);
@@ -552,4 +552,5 @@ function createHeartExplosion() {
         }
     `;
     document.head.appendChild(style);
+
 }
