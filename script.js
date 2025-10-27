@@ -82,33 +82,24 @@ class DiscordWebsite {
 
     async fetchServerData() {
         try {
-            // Fetch real Discord widget data
+            // Set your ACTUAL total member count here (manually)
+            const TOTAL_MEMBERS = 451; // Change this number to your server's actual total member count
+            
+            // Fetch real Discord widget data for online count only
             const response = await fetch(`https://discord.com/api/guilds/${DISCORD_SERVER_ID}/widget.json`);
             
             if (response.ok) {
                 const data = await response.json();
-                const onlineCount = data.presence_count || 0; // Online members (accurate)
-                
-                // Calculate approximate total members
-                // Discord widget typically shows 10-20% of total server members as online
-                // Adjust the multiplier based on your server's typical activity
-                const estimatedTotalMembers = Math.round(onlineCount * 5.5); // 5.5x multiplier
-                
-                // Or you can set a manual minimum if you know your server size
-                // For example, if you have 250+ members, set it here:
-                const manualTotalMembers = 455; // Change this to your actual member count
-                
-                // Use the larger of estimated or manual count
-                const totalMembers = Math.max(estimatedTotalMembers, manualTotalMembers);
+                const onlineCount = data.presence_count || 0; // Online members (accurate from widget)
 
                 // Animate counter updates
                 if (memberCountElement && onlineCountElement) {
-                    this.animateCounter(memberCountElement, totalMembers);
-                    this.animateCounter(onlineCountElement, onlineCount);
+                    this.animateCounter(memberCountElement, TOTAL_MEMBERS); // Manual total
+                    this.animateCounter(onlineCountElement, onlineCount);    // Real-time online
                 }
 
                 // Store these values for periodic updates
-                this.cachedTotalMembers = totalMembers;
+                this.cachedTotalMembers = TOTAL_MEMBERS;
                 this.cachedOnlineCount = onlineCount;
 
                 // Update counts periodically with real data
@@ -126,16 +117,16 @@ class DiscordWebsite {
     }
 
     useFallbackData() {
-        // Set your actual server member count here
-        const memberCount = 250; // Total members (set manually)
-        const onlineCount = 45;  // Will be overwritten by real data if widget works
+        // Set your ACTUAL total member count here (manually)
+        const TOTAL_MEMBERS = 451; // Change this number to your server's actual total member count
+        const onlineCount = 0;  // Will be overwritten by real data if widget works
 
         if (memberCountElement && onlineCountElement) {
-            this.animateCounter(memberCountElement, memberCount);
+            this.animateCounter(memberCountElement, TOTAL_MEMBERS);
             this.animateCounter(onlineCountElement, onlineCount);
         }
 
-        this.cachedTotalMembers = memberCount;
+        this.cachedTotalMembers = TOTAL_MEMBERS;
         this.cachedOnlineCount = onlineCount;
 
         this.startRealTimeUpdates();
@@ -167,6 +158,9 @@ class DiscordWebsite {
     }
 
     startRealTimeUpdates() {
+        // Set your ACTUAL total member count here (manually)
+        const TOTAL_MEMBERS = 451; // Change this number to your server's actual total member count
+        
         // Update every 60 seconds with real Discord data
         setInterval(async () => {
             try {
@@ -176,19 +170,14 @@ class DiscordWebsite {
                     const data = await response.json();
                     const onlineCount = data.presence_count || 0;
                     
-                    // Calculate approximate total members (same formula)
-                    const estimatedTotalMembers = Math.round(onlineCount * 5.5);
-                    const manualTotalMembers = 250; // Your manual override
-                    const totalMembers = Math.max(estimatedTotalMembers, manualTotalMembers);
-                    
                     if (memberCountElement && onlineCountElement) {
-                        // Smooth update
-                        memberCountElement.textContent = totalMembers.toLocaleString();
+                        // Smooth update - Total is always manual, Online is real-time
+                        memberCountElement.textContent = TOTAL_MEMBERS.toLocaleString();
                         onlineCountElement.textContent = onlineCount.toLocaleString();
                     }
                     
                     // Update cached values
-                    this.cachedTotalMembers = totalMembers;
+                    this.cachedTotalMembers = TOTAL_MEMBERS;
                     this.cachedOnlineCount = onlineCount;
                 }
             } catch (error) {
@@ -507,7 +496,6 @@ document.addEventListener('keydown', (e) => {
     
     if (heartCode.join(',') === heartSequence.join(',')) {
         createHeartExplosion();
-        
         heartCode = [];
     }
 });
@@ -552,6 +540,4 @@ function createHeartExplosion() {
         }
     `;
     document.head.appendChild(style);
-
 }
-
